@@ -1,0 +1,15 @@
+{
+	"required": true,
+	"package": "dev.shulkerinsight.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"client": [
+		"ItemTooltipImageMixin",
+		"ContainerTooltipSuppressMixin",
+		"GuiItemMixin",
+		"ShulkerBoxRendererMixin",
+		"ClientLevelMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

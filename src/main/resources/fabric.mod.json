@@ -1,0 +1,34 @@
+{
+	"schemaVersion": 1,
+	"id": "shulkerinsight",
+	"version": "${version}",
+	"name": "Shulker Insight",
+	"description": "Preview shulker contents in tooltips, show fill level, and mark shulkers that contain a single item type.",
+	"authors": [
+		"Shulker Insight"
+	],
+	"contact": {
+		"homepage": "",
+		"sources": ""
+	},
+	"license": "CC-BY-4.0",
+	"icon": "assets/shulkerinsight/icon.png",
+	"environment": "client",
+	"entrypoints": {
+		"client": [
+			"dev.shulkerinsight.ShulkerInsightClient"
+		]
+	},
+	"mixins": [
+		{
+			"config": "shulkerinsight.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.18.4",
+		"minecraft": ">=26.2",
+		"java": ">=25",
+		"fabric-api": "*"
+	}
+}
