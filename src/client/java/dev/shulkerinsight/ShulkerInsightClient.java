@@ -1,5 +1,6 @@
 package dev.shulkerinsight;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import java.util.ArrayList;
 import java.util.List;
 import net.fabricmc.api.ClientModInitializer;
@@ -16,7 +17,6 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.level.block.entity.ShulkerBoxBlockEntity;
 import net.minecraft.world.item.ItemStack;
-import org.lwjgl.glfw.GLFW;
 
 public final class ShulkerInsightClient implements ClientModInitializer {
     private static final List<ItemStack> SCREEN_CONTENTS = new ArrayList<>(ShulkerAnalyzer.SLOT_COUNT);
@@ -29,7 +29,7 @@ public final class ShulkerInsightClient implements ClientModInitializer {
 
         KeyMapping keybind = KeyMappingHelper.registerKeyMapping(new KeyMapping(
                 "key.shulkerinsight.config",
-                GLFW.GLFW_KEY_LEFT,
+                InputConstants.KEY_LEFT,
                 KeyMapping.Category.register(Identifier.fromNamespaceAndPath("shulkerinsight", "general"))));
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             while (keybind.consumeClick()) {

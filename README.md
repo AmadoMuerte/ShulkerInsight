@@ -22,7 +22,7 @@
 ## Требования
 
 - JDK 25
-- Minecraft 26.2
+- Minecraft 26.2 или 26.3
 - Fabric API
 
 ## Разработка
@@ -33,4 +33,10 @@
 ./gradlew build
 ./gradlew test
 ./gradlew runClient
+```
+
+По умолчанию сборка идёт под Minecraft 26.3. Для другой версии переопределите версии Minecraft и Fabric API:
+
+```sh
+./gradlew build -Pminecraft_version=26.2 -Pfabric_version=0.152.1+26.2
 ```

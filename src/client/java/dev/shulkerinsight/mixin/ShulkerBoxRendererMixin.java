@@ -21,6 +21,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.ShulkerBoxBlockEntity;
 import net.minecraft.world.phys.Vec3;
+import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -110,27 +111,33 @@ public class ShulkerBoxRendererMixin {
         switch (dir) {
             case UP -> {
                 poseStack.translate(0.5, 1.0 + lid + o, 0.5);
-                poseStack.mulPose(Axis.XP.rotationDegrees(-90));
+                shulkerinsight$rotate(poseStack, Axis.XP, -90);
             }
             case DOWN -> {
                 poseStack.translate(0.5, -lid - o, 0.5);
-                poseStack.mulPose(Axis.XP.rotationDegrees(90));
+                shulkerinsight$rotate(poseStack, Axis.XP, 90);
             }
             case NORTH -> {
                 poseStack.translate(0.5, 0.5, -lid - o);
-                poseStack.mulPose(Axis.YP.rotationDegrees(180));
+                shulkerinsight$rotate(poseStack, Axis.YP, 180);
             }
             case SOUTH -> poseStack.translate(0.5, 0.5, 1.0 + lid + o);
             case EAST -> {
                 poseStack.translate(1.0 + lid + o, 0.5, 0.5);
-                poseStack.mulPose(Axis.YP.rotationDegrees(90));
+                shulkerinsight$rotate(poseStack, Axis.YP, 90);
             }
             case WEST -> {
                 poseStack.translate(-lid - o, 0.5, 0.5);
-                poseStack.mulPose(Axis.YP.rotationDegrees(-90));
+                shulkerinsight$rotate(poseStack, Axis.YP, -90);
             }
         }
-        poseStack.mulPose(Axis.YP.rotationDegrees(180));
+        shulkerinsight$rotate(poseStack, Axis.YP, 180);
         poseStack.scale(scale, scale, scale);
+    }
+
+    // 26.3 replaced mulPose(Quaternionf) with rotate(Quaternionf); mulPose(Matrix4f) exists in both.
+    @Unique
+    private static void shulkerinsight$rotate(PoseStack poseStack, Axis axis, float degrees) {
+        poseStack.mulPose(new Matrix4f().rotation(axis.rotationDegrees(degrees)));
     }
 }
