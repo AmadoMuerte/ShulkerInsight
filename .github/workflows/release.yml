@@ -10,8 +10,16 @@ permissions:
   contents: write
 
 jobs:
-  release:
+  build:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - minecraft: '26.2'
+            fabric: '0.152.1+26.2'
+          - minecraft: '26.3'
+            fabric: '0.161.0+26.3'
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 25
@@ -22,11 +30,27 @@ jobs:
           cache: gradle
       - name: Make gradlew executable
         run: chmod +x gradlew
-      - name: Build and test
-        run: ./gradlew build
+      - name: Build and test (Minecraft ${{ matrix.minecraft }})
+        run: ./gradlew build -Pminecraft_version=${{ matrix.minecraft }} -Pfabric_version=${{ matrix.fabric }}
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: shulker-insight-${{ matrix.minecraft }}
+          path: build/libs/*.jar
+          if-no-files-found: error
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
       - name: Publish GitHub Release
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:
-          files: build/libs/shulker-insight-*.jar
+          files: dist/*.jar
           generate_release_notes: true
