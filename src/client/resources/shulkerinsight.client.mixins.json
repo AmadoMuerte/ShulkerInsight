@@ -6,8 +6,7 @@
 		"ItemTooltipImageMixin",
 		"ContainerTooltipSuppressMixin",
 		"GuiItemMixin",
-		"ShulkerBoxRendererMixin",
-		"ClientLevelMixin"
+		"ShulkerBoxRendererMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

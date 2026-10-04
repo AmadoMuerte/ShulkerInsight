@@ -1,29 +1,32 @@
 package dev.shulkerinsight;
 
+import java.util.Collections;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import net.minecraft.core.BlockPos;
+import java.util.WeakHashMap;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.ShulkerBoxBlockEntity;
 
 public final class ShulkerWorldCache {
-    private static final Map<BlockPos, ItemStack> ENTRIES = new ConcurrentHashMap<>();
+    // A replacement or another dimension can have the same position, but never the same entity.
+    private static final Map<ShulkerBoxBlockEntity, ItemStack> ENTRIES =
+            Collections.synchronizedMap(new WeakHashMap<>());
 
     private ShulkerWorldCache() {}
 
-    public static ItemStack get(BlockPos pos) {
-        return ENTRIES.get(pos);
+    public static ItemStack get(ShulkerBoxBlockEntity blockEntity) {
+        return blockEntity.isRemoved() ? null : ENTRIES.get(blockEntity);
     }
 
-    public static void put(BlockPos pos, ItemStack uniformOrEmpty) {
-        ENTRIES.put(pos.immutable(), copyOrEmpty(uniformOrEmpty));
+    public static void put(ShulkerBoxBlockEntity blockEntity, ItemStack uniformOrEmpty) {
+        if (!blockEntity.isRemoved()) {
+            ENTRIES.put(blockEntity, copyOrEmpty(uniformOrEmpty));
+        }
     }
 
-    public static void seedIfUnknown(BlockPos pos, ItemStack uniformOrEmpty) {
-        ENTRIES.putIfAbsent(pos.immutable(), copyOrEmpty(uniformOrEmpty));
-    }
-
-    public static void remove(BlockPos pos) {
-        ENTRIES.remove(pos);
+    public static void seedIfUnknown(ShulkerBoxBlockEntity blockEntity, ItemStack uniformOrEmpty) {
+        if (!blockEntity.isRemoved()) {
+            ENTRIES.putIfAbsent(blockEntity, copyOrEmpty(uniformOrEmpty));
+        }
     }
 
     public static void clear() {

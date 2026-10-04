@@ -46,7 +46,11 @@ public class ShulkerBoxRendererMixin {
             Vec3 cameraPos,
             ModelFeatureRenderer.CrumblingOverlay crumblingOverlay,
             CallbackInfo callbackInfo) {
-        if (!ShulkerInsightConfig.worldIcon || ShulkerWorldCache.get(renderState.blockPos) != null) {
+        Level level = Minecraft.getInstance().level;
+        if (!ShulkerInsightConfig.worldIcon || blockEntity.isRemoved()
+                || level == null || blockEntity.getLevel() != level
+                || level.getBlockEntity(blockEntity.getBlockPos()) != blockEntity
+                || ShulkerWorldCache.get(blockEntity) != null) {
             return;
         }
         double distance = ShulkerInsightConfig.worldIconDistance;
@@ -57,7 +61,7 @@ public class ShulkerBoxRendererMixin {
                 > distance * distance) {
             return;
         }
-        ShulkerWorldCache.seedIfUnknown(renderState.blockPos, ShulkerContents.of(blockEntity).uniformItem());
+        ShulkerWorldCache.seedIfUnknown(blockEntity, ShulkerContents.of(blockEntity).uniformItem());
     }
 
     @Inject(method = "submit(Lnet/minecraft/client/renderer/blockentity/state/ShulkerBoxRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/client/renderer/state/level/CameraRenderState;)V", at = @At("TAIL"))
@@ -71,7 +75,11 @@ public class ShulkerBoxRendererMixin {
             return;
         }
 
-        ItemStack icon = ShulkerWorldCache.get(renderState.blockPos);
+        Level level = Minecraft.getInstance().level;
+        if (level == null || !(level.getBlockEntity(renderState.blockPos) instanceof ShulkerBoxBlockEntity blockEntity)) {
+            return;
+        }
+        ItemStack icon = ShulkerWorldCache.get(blockEntity);
         if (icon == null || icon.isEmpty()) {
             return;
         }
@@ -82,11 +90,6 @@ public class ShulkerBoxRendererMixin {
                         renderState.blockPos.getY() + 0.5,
                         renderState.blockPos.getZ() + 0.5)
                 > distance * distance) {
-            return;
-        }
-
-        Level level = Minecraft.getInstance().level;
-        if (level == null) {
             return;
         }
 
