@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ItemStack.class)
 public class ContainerTooltipSuppressMixin {
-    @Inject(method = "addToTooltip", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "addToTooltip(Lnet/minecraft/core/component/DataComponentType;Lnet/minecraft/world/item/Item$TooltipContext;Lnet/minecraft/world/item/component/TooltipDisplay;Ljava/util/function/Consumer;Lnet/minecraft/world/item/TooltipFlag;)V", at = @At("HEAD"), cancellable = true)
     private <T extends net.minecraft.world.item.component.TooltipProvider> void shulkerinsight$suppressContainerTooltip(
             DataComponentType<T> type,
             Item.TooltipContext context,
