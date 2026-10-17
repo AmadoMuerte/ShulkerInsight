@@ -1,5 +1,30 @@
-/run/
+# Gradle / build
 /build/
 /.gradle/
+/.gradle-home/
+/.kotlin/
+out/
+classes/
+
+# IDEs
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.classpath
+.project
+.settings/
+
+# Loom dev runtime
+/run/
+/bin/
+/logs/
+*.launch
+
+# direnv / tool caches
 /.direnv/
 .opencode/
+
+# OS junk
+.DS_Store

@@ -13,7 +13,7 @@
         let pkgs = import nixpkgs { inherit system; };
         in {
           default = pkgs.mkShell {
-            packages = [ pkgs.jdk25 pkgs.git ];
+            packages = [ pkgs.jdk25 pkgs.git pkgs.gnumake ];
             JAVA_HOME = "${pkgs.jdk25.home}";
             LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [
               pkgs.libGL
