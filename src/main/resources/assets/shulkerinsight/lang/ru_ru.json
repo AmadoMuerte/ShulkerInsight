@@ -6,6 +6,7 @@
 	"shulkerinsight.options.fill_indicator": "Индикатор заполненности",
 	"shulkerinsight.options.inventory_badge": "Иконка предмета в инвентаре",
 	"shulkerinsight.options.world_icon": "Иконка предмета в мире",
+	"shulkerinsight.options.world_icon_full_outline": "Контур у полного шалкера",
 	"shulkerinsight.options.world_icon_distance": "Дальность иконки: %s блоков",
 	"shulkerinsight.options.world_icon_scale": "Масштаб иконки: %s%%"
 }

@@ -10,6 +10,7 @@ import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.entity.ShulkerBoxBlockEntity
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertSame
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 
@@ -24,6 +25,9 @@ class ShulkerWorldCacheTest {
             Items.STONE.builtInRegistryHolder().bindComponents(DataComponentMap.EMPTY)
             Items.DIAMOND.builtInRegistryHolder().bindComponents(DataComponentMap.EMPTY)
         }
+
+        private fun analysis(uniformItem: ItemStack): ShulkerContents.Analysis =
+            ShulkerContents.Analysis(uniformItem, if (uniformItem.isEmpty) 0f else 1f)
     }
 
     @Test
@@ -33,23 +37,23 @@ class ShulkerWorldCacheTest {
         val replacement = ShulkerBoxBlockEntity(pos, Blocks.SHULKER_BOX.defaultBlockState())
         ShulkerWorldCache.clear()
         try {
-            ShulkerWorldCache.put(oldShulker, ItemStack(Items.STONE))
+            ShulkerWorldCache.put(oldShulker, analysis(ItemStack(Items.STONE)))
             oldShulker.setRemoved()
             assertNull(ShulkerWorldCache.get(oldShulker))
             assertNull(ShulkerWorldCache.get(replacement))
 
             // A stale section mesh can render the removed entity before its rebuild finishes.
-            ShulkerWorldCache.seedIfUnknown(oldShulker, ItemStack(Items.STONE))
-            ShulkerWorldCache.seedIfUnknown(replacement, ItemStack(Items.DIAMOND))
-            assertEquals(Items.DIAMOND, ShulkerWorldCache.get(replacement)!!.item)
+            ShulkerWorldCache.seedIfUnknown(oldShulker, analysis(ItemStack(Items.STONE)))
+            ShulkerWorldCache.seedIfUnknown(replacement, analysis(ItemStack(Items.DIAMOND)))
+            assertEquals(Items.DIAMOND, ShulkerWorldCache.get(replacement)!!.uniformItem.item)
 
             // A still-live entity in another level must not share the entry either.
             val otherLevel = ShulkerBoxBlockEntity(pos, Blocks.SHULKER_BOX.defaultBlockState())
-            ShulkerWorldCache.seedIfUnknown(otherLevel, ItemStack.EMPTY)
-            assertEquals(ItemStack.EMPTY, ShulkerWorldCache.get(otherLevel))
-            ShulkerWorldCache.put(oldShulker, ItemStack(Items.STONE))
+            ShulkerWorldCache.seedIfUnknown(otherLevel, analysis(ItemStack.EMPTY))
+            assertSame(ItemStack.EMPTY, ShulkerWorldCache.get(otherLevel)!!.uniformItem)
+            ShulkerWorldCache.put(oldShulker, analysis(ItemStack(Items.STONE)))
             assertNull(ShulkerWorldCache.get(oldShulker))
-            assertEquals(Items.DIAMOND, ShulkerWorldCache.get(replacement)!!.item)
+            assertEquals(Items.DIAMOND, ShulkerWorldCache.get(replacement)!!.uniformItem.item)
         } finally {
             ShulkerWorldCache.clear()
         }

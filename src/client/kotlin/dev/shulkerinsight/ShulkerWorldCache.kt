@@ -2,29 +2,28 @@ package dev.shulkerinsight
 
 import java.util.Collections
 import java.util.WeakHashMap
-import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.block.entity.ShulkerBoxBlockEntity
 
 object ShulkerWorldCache {
     // A replacement or another dimension can have the same position, but never the same entity.
-    private val ENTRIES: MutableMap<ShulkerBoxBlockEntity, ItemStack> =
+    private val ENTRIES: MutableMap<ShulkerBoxBlockEntity, ShulkerContents.Analysis> =
         Collections.synchronizedMap(WeakHashMap())
 
     @JvmStatic
-    fun get(blockEntity: ShulkerBoxBlockEntity): ItemStack? =
+    fun get(blockEntity: ShulkerBoxBlockEntity): ShulkerContents.Analysis? =
         if (blockEntity.isRemoved) null else ENTRIES[blockEntity]
 
     @JvmStatic
-    fun put(blockEntity: ShulkerBoxBlockEntity, uniformOrEmpty: ItemStack) {
+    fun put(blockEntity: ShulkerBoxBlockEntity, analysis: ShulkerContents.Analysis) {
         if (!blockEntity.isRemoved) {
-            ENTRIES[blockEntity] = copyOrEmpty(uniformOrEmpty)
+            ENTRIES[blockEntity] = analysis
         }
     }
 
     @JvmStatic
-    fun seedIfUnknown(blockEntity: ShulkerBoxBlockEntity, uniformOrEmpty: ItemStack) {
+    fun seedIfUnknown(blockEntity: ShulkerBoxBlockEntity, analysis: ShulkerContents.Analysis) {
         if (!blockEntity.isRemoved) {
-            ENTRIES.putIfAbsent(blockEntity, copyOrEmpty(uniformOrEmpty))
+            ENTRIES.putIfAbsent(blockEntity, analysis)
         }
     }
 
@@ -32,7 +31,4 @@ object ShulkerWorldCache {
     fun clear() {
         ENTRIES.clear()
     }
-
-    private fun copyOrEmpty(stack: ItemStack): ItemStack =
-        if (stack.isEmpty) ItemStack.EMPTY else stack.copy()
 }

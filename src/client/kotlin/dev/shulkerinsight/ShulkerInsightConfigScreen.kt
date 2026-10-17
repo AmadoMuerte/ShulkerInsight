@@ -33,7 +33,13 @@ class ShulkerInsightConfigScreen : OptionsSubScreen(
                 ShulkerInsightConfig.worldIcon = value
             }).createButton(options, 0, 0, 150),
         )
-        list.addSmall(DistanceSlider(), ScaleSlider())
+        list.addSmall(
+            booleanOption("shulkerinsight.options.world_icon_full_outline", ShulkerInsightConfig.worldIconFullOutline, Consumer { value: Boolean ->
+                ShulkerInsightConfig.worldIconFullOutline = value
+            }).createButton(options, 0, 0, 150),
+            DistanceSlider(),
+        )
+        list.addBig(ScaleSlider())
     }
 
     private class DistanceSlider : AbstractSliderButton(

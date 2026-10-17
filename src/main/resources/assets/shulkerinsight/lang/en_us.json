@@ -6,6 +6,7 @@
 	"shulkerinsight.options.fill_indicator": "Fill Indicator",
 	"shulkerinsight.options.inventory_badge": "Inventory Item Icon",
 	"shulkerinsight.options.world_icon": "World Item Icon",
+	"shulkerinsight.options.world_icon_full_outline": "Full Box Icon Outline",
 	"shulkerinsight.options.world_icon_distance": "Icon Distance: %s blocks",
 	"shulkerinsight.options.world_icon_scale": "Icon Scale: %s%%"
 }

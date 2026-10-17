@@ -18,6 +18,10 @@ object ShulkerContents {
 
         val isEmpty: Boolean
             get() = fillRatio <= 0.0f
+
+        /** Matches the cyan "exactly full" branch of [ShulkerRenderHelpers.fillColor]. */
+        val isFull: Boolean
+            get() = fillRatio >= ShulkerRenderHelpers.FULL_RATIO
     }
 
     @JvmStatic

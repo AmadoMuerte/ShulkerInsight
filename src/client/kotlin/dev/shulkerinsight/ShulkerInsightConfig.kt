@@ -25,6 +25,9 @@ object ShulkerInsightConfig {
     var worldIcon = true
 
     @JvmField
+    var worldIconFullOutline = true
+
+    @JvmField
     var worldIconDistance = 32
 
     @JvmField
@@ -44,6 +47,7 @@ object ShulkerInsightConfig {
                     fillIndicator = config.fillIndicator
                     inventoryBadge = config.inventoryBadge
                     worldIcon = config.worldIcon
+                    worldIconFullOutline = config.worldIconFullOutline
                     worldIconDistance = config.worldIconDistance.coerceIn(4, 64)
                     worldIconScale = Math.clamp(config.worldIconScale, 0.25f, 1.0f)
                 }
@@ -73,6 +77,7 @@ object ShulkerInsightConfig {
         fillIndicator = true
         inventoryBadge = true
         worldIcon = true
+        worldIconFullOutline = true
         worldIconDistance = 32
         worldIconScale = 0.5f
     }
@@ -82,6 +87,7 @@ object ShulkerInsightConfig {
         var fillIndicator = ShulkerInsightConfig.fillIndicator
         var inventoryBadge = ShulkerInsightConfig.inventoryBadge
         var worldIcon = ShulkerInsightConfig.worldIcon
+        var worldIconFullOutline = ShulkerInsightConfig.worldIconFullOutline
         var worldIconDistance = ShulkerInsightConfig.worldIconDistance
         var worldIconScale = ShulkerInsightConfig.worldIconScale
     }

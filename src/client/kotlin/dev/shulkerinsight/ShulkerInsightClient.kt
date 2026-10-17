@@ -90,7 +90,7 @@ class ShulkerInsightClient : ClientModInitializer {
                 SCREEN_CONTENTS.add(screen.menu.slots[i].item)
                 i++
             }
-            ShulkerWorldCache.put(shulker, ShulkerContents.of(SCREEN_CONTENTS).uniformItem)
+            ShulkerWorldCache.put(shulker, ShulkerContents.of(SCREEN_CONTENTS))
         }
     }
 }

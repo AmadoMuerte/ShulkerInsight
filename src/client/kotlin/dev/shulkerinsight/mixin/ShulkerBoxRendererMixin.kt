@@ -63,7 +63,7 @@ class ShulkerBoxRendererMixin {
         ) {
             return
         }
-        ShulkerWorldCache.seedIfUnknown(blockEntity, ShulkerContents.of(blockEntity).uniformItem)
+        ShulkerWorldCache.seedIfUnknown(blockEntity, ShulkerContents.of(blockEntity))
     }
 
     @Inject(
@@ -82,7 +82,8 @@ class ShulkerBoxRendererMixin {
 
         val level: Level = Minecraft.getInstance().level ?: return
         val blockEntity = level.getBlockEntity(renderState.blockPos) as? ShulkerBoxBlockEntity ?: return
-        val icon: ItemStack = ShulkerWorldCache.get(blockEntity) ?: return
+        val analysis: ShulkerContents.Analysis = ShulkerWorldCache.get(blockEntity) ?: return
+        val icon = analysis.uniformItem
         if (icon.isEmpty) return
 
         val distance = ShulkerInsightConfig.worldIconDistance
@@ -103,6 +104,13 @@ class ShulkerBoxRendererMixin {
         poseStack.pushPose()
         ShulkerRenderHelpers.applyFaceTransform(poseStack, direction, renderState.progress, ShulkerInsightConfig.worldIconScale)
         state.submit(poseStack, submitNodeCollector, renderState.lightCoords, OverlayTexture.NO_OVERLAY, 0)
+        // Reuse the cached detection result and the inventory stage colors: the disc's
+        // sweep equals the fill ratio, its color comes from the same fillColor() as the
+        // inventory indicator. Cached so servers that only sync contents through the
+        // container menu still get the world icon highlight.
+        if (ShulkerInsightConfig.worldIconFullOutline && analysis.fillRatio > 0f) {
+            ShulkerRenderHelpers.submitFullHighlight(submitNodeCollector, poseStack, analysis.fillRatio)
+        }
         poseStack.popPose()
     }
 }
