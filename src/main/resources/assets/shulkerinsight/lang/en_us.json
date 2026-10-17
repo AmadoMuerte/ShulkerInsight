@@ -1,11 +1,11 @@
 {
-	"key.shulkerinsight.config": "Открыть настройки Shulker Insight",
+	"key.shulkerinsight.config": "Open Shulker Insight settings",
 	"key.categories.shulkerinsight.general": "Shulker Insight",
-	"shulkerinsight.options.title": "Настройки Shulker Insight",
-	"shulkerinsight.options.contents_preview": "Просмотр содержимого",
-	"shulkerinsight.options.fill_indicator": "Индикатор заполненности",
-	"shulkerinsight.options.inventory_badge": "Иконка предмета в инвентаре",
-	"shulkerinsight.options.world_icon": "Иконка предмета в мире",
-	"shulkerinsight.options.world_icon_distance": "Дальность иконки: %s блоков",
-	"shulkerinsight.options.world_icon_scale": "Масштаб иконки: %s%%"
+	"shulkerinsight.options.title": "Shulker Insight Settings",
+	"shulkerinsight.options.contents_preview": "Contents Preview",
+	"shulkerinsight.options.fill_indicator": "Fill Indicator",
+	"shulkerinsight.options.inventory_badge": "Inventory Item Icon",
+	"shulkerinsight.options.world_icon": "World Item Icon",
+	"shulkerinsight.options.world_icon_distance": "Icon Distance: %s blocks",
+	"shulkerinsight.options.world_icon_scale": "Icon Scale: %s%%"
 }

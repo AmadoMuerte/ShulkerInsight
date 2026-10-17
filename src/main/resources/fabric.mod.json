@@ -3,12 +3,12 @@
 	"id": "shulkerinsight",
 	"version": "${version}",
 	"name": "Shulker Insight",
-	"description": "Просмотр содержимого шалкеров в подсказках, отображение уровня заполнения и отметка шалкеров, содержащих предметы только одного типа.",
+	"description": "Preview shulker box contents in tooltips, show fill level, and mark shulkers that contain a single item type.",
 	"authors": [
 		"AmadoMuerte"
 	],
 	"contact": {
-		"homepage": "",
+		"homepage": "https://amadomuerte.ru",
 		"sources": "https://github.com/AmadoMuerte/ShulkerInsight"
 	},
 	"license": "CC-BY-4.0",
